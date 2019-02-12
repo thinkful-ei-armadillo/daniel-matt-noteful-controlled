@@ -81,7 +81,7 @@ class App extends Component {
     return (
       <>
         {['/', '/folder/:folderId'].map(path => {
-        return <div className="notes-list">
+        return (<div className="notes-list">
           <Route 
             exact
             key={path}
@@ -96,6 +96,8 @@ class App extends Component {
                 )
               }}
             />
+                </div>)
+        })}
             <Route
               path='/note/:noteId'
               render={routeProps => {
@@ -124,9 +126,6 @@ class App extends Component {
                 )
           }}
         />
-          </div>
-        })
-      }
     </>
     )}
 
