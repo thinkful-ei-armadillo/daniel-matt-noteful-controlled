@@ -16,9 +16,11 @@ export default class AddNote extends Component {
           <input type="textarea" placeholder="description" />
           <select id='note-folder-select'>
           <option value="null">...</option>
-            <option key={this.folder.id} value={this.folder.id}>
-              {this.folder.name}
-            </option>
+          {folders.map(folder =>
+                <option key={folder.id} value={folder.id}>
+                  {folder.name}
+                </option>
+              )}
           </select>
         </NoteForm>
       </section>

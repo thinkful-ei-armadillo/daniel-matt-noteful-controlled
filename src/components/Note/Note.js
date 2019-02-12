@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
+import { format } from 'date-fns';
 
 export default function Note(props) {
   return(
@@ -9,7 +10,7 @@ export default function Note(props) {
           {props.name}
         </Link>
       </h2>
-      <p>Modified: {props.modified}</p>
+        <p>Modified: {format( props.modified, 'Do MMM YYYY' )}</p>
       <button>Delete</button>
     </div>
   )

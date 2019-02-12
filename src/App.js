@@ -70,9 +70,16 @@ class App extends Component {
               }}
             />
             <Route
-              path='/add-note'
-              component={AddNote}
-            />
+          path='/add-note'
+          render={routeProps => {
+            return (
+              <AddNote
+                {...routeProps}
+                folders={folders}
+              />
+            )
+          }}
+        />
           </div>
         })
       }
