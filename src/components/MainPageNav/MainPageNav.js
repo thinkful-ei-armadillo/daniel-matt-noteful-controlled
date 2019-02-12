@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { Route, Link, NavLink } from 'react-router-dom';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import './MainPageNav.css';
 
 export default function MainPageNav(props) {
   return (

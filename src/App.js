@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import './dummy-store';
 import MainPageList from './components/MainPageList/MainPageList';
 import MainPageNav from './components/MainPageNav/MainPageNav';
+import NotePageSidebar from './components/NotePage/NotePageSidebar';
+import NotePageMain from './components/NotePage/NotePageMain';
 import AddNote from './components/AddNote/AddNote';
-import './App.css';
 import dummyStore from './dummy-store';
+import AddFolder from './components/AddFolder/AddFolder';
+import './App.css';
 
+const getNotes = (notes=[], folderId) => (
+  (!folderId)
+    ? notes
+    : notes.filter(note => note.folderId === folderId)
+)
+
+const findNote = (notes=[], noteId) => notes.find(note => note.id === noteId)
+
+const findFolder = (folders=[], folderId) => folders.find(folder => folder.id === folderId)
 
 class App extends Component {
   state = {
@@ -20,6 +31,7 @@ class App extends Component {
 
   //render sidebar routes
   renderSidebar() {
+    console.log('sidebar rendered!')
     const { notes, folders } = this.state
     return (
         <>
@@ -37,20 +49,34 @@ class App extends Component {
             }
             />
           )}
+          <Route
+          path='/note/:noteId'
+          render={routeProps => {
+            const { noteId } = routeProps.match.params
+            const note = findNote(notes, noteId) || {}
+            const folder = findFolder(folders, note.folderId)
+            return (
+              <NotePageSidebar
+                folder={folder}
+                {...routeProps}
+              />
+            )
+          }}
+        />
             <Route
             path='/add-folder'
             component={MainPageNav}
             />
+            <Route
+            path='/add-note'
+            component={NotePageSidebar}
+        />
           </>
-            // <Route path='/' component={MainSidebar} />
-            // <Route path='/foo' component={FooSidebar} />
-            // <Route path='/' component={MainMain} />
-            // <Route path='/foo' component={FooMain} />
-        
     );
   }
   // then render the main routes
   renderMain() {
+    console.log('main rendered!')
     const { notes, folders } = this.state
     return (
       <>
@@ -62,22 +88,40 @@ class App extends Component {
             path={path}
             render={routeProps => {
               const { folderId } = routeProps.match.params
+              const notesForFolder = getNotes(notes, folderId)
               return (<MainPageList
-                notes={notes}
+                notes={notesForFolder}
                 {...routeProps}
                 />
                 )
               }}
             />
             <Route
-          path='/add-note'
-          render={routeProps => {
-            return (
-              <AddNote
-                {...routeProps}
-                folders={folders}
-              />
-            )
+              path='/note/:noteId'
+              render={routeProps => {
+                const { noteId } = routeProps.match.params
+                const note = findNote(notes, noteId)
+                return (
+                  <NotePageMain
+                    note={note}
+                    {...routeProps}
+                  />
+                )
+              }}
+            />
+            <Route
+            path='/add-folder'
+            component={AddFolder}
+            />
+            <Route
+              path='/add-note'
+              render={routeProps => {
+                return (
+                  <AddNote
+                    {...routeProps}
+                    folders={folders}
+                  />
+                )
           }}
         />
           </div>

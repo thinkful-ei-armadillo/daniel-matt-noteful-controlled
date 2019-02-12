@@ -5,10 +5,16 @@
   padding: 5px;
   max-width: 560px;
   color: #444;
+  margin-bottom: 50px;
+}
+
+header {
+  height: 50px;
 }
 
 h1 {
   color: #666;
+  margin-left: 150px;
 }
 
 h2 {

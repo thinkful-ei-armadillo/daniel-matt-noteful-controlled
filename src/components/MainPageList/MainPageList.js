@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Note from '../Note/Note';
+import './MainPageList.css'
 
 export default function MainPageList(props) {
   return (

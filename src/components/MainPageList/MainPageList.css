@@ -1,0 +1,7 @@
+.MainPageList {
+  margin-left: 150px;
+}
+
+.MainPageList > ul {
+  list-style: none;
+}

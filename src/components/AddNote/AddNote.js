@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import NoteForm from './NoteForm';
+import Form from '../Form';
+import './AddNote.css';
 
 export default class AddNote extends Component {
   static defaultProps = {
@@ -9,9 +10,9 @@ export default class AddNote extends Component {
     const {folders} = this.props
     return (
       
-      <section>
+      <section className="addNoteForm">
         <h2>Add A Note</h2>
-        <NoteForm>
+        <Form>
           <input type="text" placeholder="name" />
           <input type="textarea" placeholder="description" />
           <select id='note-folder-select'>
@@ -22,7 +23,7 @@ export default class AddNote extends Component {
                 </option>
               )}
           </select>
-        </NoteForm>
+        </Form>
       </section>
     )
   }
