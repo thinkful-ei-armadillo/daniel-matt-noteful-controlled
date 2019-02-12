@@ -9,7 +9,9 @@ class App extends Component {
     
     return (
       <main className='App'>
-        
+        <Route />
+        <Route />
+        <Route />
       </main>
     );
   }
