@@ -19,3 +19,8 @@
   margin: 0 auto;
   padding: 4px;
 }
+
+.MainPageNav > button {
+  margin-right: 10px;
+
+}
