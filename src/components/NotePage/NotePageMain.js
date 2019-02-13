@@ -1,8 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Note from '../Note/Note';
 import UserContext from '../../Context';
 import findNote from '../../App';
 import './NotePageMain.css';
+
+console.log(Note);
+
 
  export default class NotePageMain extends React.Component {
    static defaultProps = {
@@ -15,6 +18,7 @@ import './NotePageMain.css';
     const { notes=[] } = this.context
     const { noteId } = this.props.match.params
     const note = findNote(notes, noteId) || {}
+    
     return (
       // <UserContext.Consumer>
       // {({notes}) => (
