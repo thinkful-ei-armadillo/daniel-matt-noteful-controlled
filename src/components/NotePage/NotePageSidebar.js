@@ -1,23 +1,30 @@
 import React from 'react';
 import './NotePageSidebar.css';
+import UserContext from '../../Context';
 
-export default function NotePageSidebar(props) {
-  return (
-    <div className='NotePageNav'>
-      <button
-        tag='button'
-        role='link'
-        onClick={() => props.history.goBack()}
-      >
-        Back
-      </button>
-      {props.folder && (
-        <h3 className='NotePageNav__folder-name'>
-          {props.folder.name}
-        </h3>
-      )}
-    </div>
-  )
+class NotePageSidebar extends React.Component {
+  render () {
+    return (
+      <UserContext.Consumer>
+        {({folders}) => (
+            <div className='NotePageNav'>
+              <button
+                tag='button'
+                role='link'
+                onClick={() => this.history.goBack()}
+              >
+                Back
+              </button>
+              {folders && (
+                <h3 className='NotePageNav__folder-name'>
+                  {folders.name}
+                </h3>
+              )}
+            </div>
+        )}
+      </UserContext.Consumer>
+    )
+  }
 }
 
 NotePageSidebar.defaultProps = {
@@ -25,3 +32,5 @@ NotePageSidebar.defaultProps = {
     goBack: () => {}
   }
 }
+
+export default NotePageSidebar;

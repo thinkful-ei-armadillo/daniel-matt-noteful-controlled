@@ -5,20 +5,22 @@ import MainPageNav from './components/MainPageNav/MainPageNav';
 import NotePageSidebar from './components/NotePage/NotePageSidebar';
 import NotePageMain from './components/NotePage/NotePageMain';
 import AddNote from './components/AddNote/AddNote';
-import dummyStore from './dummy-store';
+import UserContext from './Context';
 import AddFolder from './components/AddFolder/AddFolder';
 import './App.css';
 
-const getNotes = (notes=[], folderId) => (
+// task functions for getting specific folders and notes from state
+export const getNotes = (notes=[], folderId) => (
   (!folderId)
     ? notes
     : notes.filter(note => note.folderId === folderId)
 )
 
-const findNote = (notes=[], noteId) => notes.find(note => note.id === noteId)
+export const findNote = (notes=[], noteId) => notes.find(note => note.id === noteId)
 
-const findFolder = (folders=[], folderId) => folders.find(folder => folder.id === folderId)
+export const findFolder = (folders=[], folderId) => folders.find(folder => folder.id === folderId)
 
+// main App
 class App extends Component {
   state = {
     notes: [],
@@ -26,7 +28,56 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState(dummyStore);
+    
+    // need to construct API get and delete requests using JSON server at localhost:9090
+    const URL = 'http://localhost:9090/';
+
+    // basic fetch template to start from:
+    fetch(URL + 'notes')
+      .then((res) => {
+        if (res.ok) {
+          console.log('folders API response ok!')
+          return res.json();
+        } else {
+          throw new Error('Failed to get folders from API');
+        }
+      })
+      .then((notes) => {
+        this.setState({
+          notes: notes,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          error: err.message,
+          loading: false,
+        });
+      });
+
+      fetch(URL + 'folders')
+      .then((res) => {
+        if (res.ok) {
+          console.log('notes API response ok!')
+          return res.json();
+        } else {
+          throw new Error('Failed to get notes from API');
+        }
+      })
+      .then((folders) => {
+        this.setState({
+          folders: folders,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          error: err.message,
+          loading: false,
+        });
+      });
+
+    // to delete, make request to http://localhost:9090/notes/<note-id> endpoint
+    
+
   }
 
   //render sidebar routes
@@ -34,34 +85,36 @@ class App extends Component {
     console.log('sidebar rendered!')
     const { notes, folders } = this.state
     return (
-        <>
+      <>
           {['/', '/folder/:folderId'].map(path =>
            <Route 
            exact
            key={path}
            path={path}
-           render={routeProps =>
-            <MainPageNav
-              folders={folders}
-              notes={notes}
-              {...routeProps}
-              />
-            }
+           component={MainPageNav}
+          //  render={routeProps => {
+          //   return <MainPageNav
+          //     // folders={folders}
+          //     // notes={notes}
+          //     {...routeProps}
+          //     />
+          //   }}
             />
           )}
           <Route
           path='/note/:noteId'
-          render={routeProps => {
-            const { noteId } = routeProps.match.params
-            const note = findNote(notes, noteId) || {}
-            const folder = findFolder(folders, note.folderId)
-            return (
-              <NotePageSidebar
-                folder={folder}
-                {...routeProps}
-              />
-            )
-          }}
+          component={NotePageSidebar}
+          // render={routeProps => {
+          //   const { noteId } = routeProps.match.params
+          //   const note = findNote(notes, noteId) || {}
+          //   const folder = findFolder(folders, note.folderId)
+          //   return (
+          //     <NotePageSidebar
+          //       folder={folder}
+          //       {...routeProps}
+          //     />
+          //   )
+          // }}
         />
             <Route
             path='/add-folder'
@@ -71,13 +124,13 @@ class App extends Component {
             path='/add-note'
             component={NotePageSidebar}
         />
-          </>
+      </>
     );
   }
   // then render the main routes
   renderMain() {
     console.log('main rendered!')
-    const { notes, folders } = this.state
+    // const { notes, folders } = this.state
     return (
       <>
         {['/', '/folder/:folderId'].map(path => {
@@ -86,27 +139,29 @@ class App extends Component {
             exact
             key={path}
             path={path}
-            render={routeProps => {
-              const { folderId } = routeProps.match.params
-              const notesForFolder = getNotes(notes, folderId)
-              return (<MainPageList
-                notes={notesForFolder}
-                {...routeProps}
-                />
-                )
-              }}
+            component={MainPageList}
+            // render={routeProps => {
+            //   const { folderId } = routeProps.match.params
+            //   const notesForFolder = getNotes(notes, folderId)
+            //   return (<MainPageList
+            //     notes={notesForFolder}
+            //     {...routeProps}
+            //     />
+            //     )
+            //   }}
             />
                 </div>)
         })}
             <Route
               path='/note/:noteId'
-              render={routeProps => {
-                const { noteId } = routeProps.match.params
-                const note = findNote(notes, noteId)
-                return (
-                  <NotePageMain
-                    note={note}
-                    {...routeProps}
+              component={NotePageMain}
+              // render={routeProps => {
+              //   const { noteId } = routeProps.match.params
+              //   const note = findNote(this.state.notes, noteId)
+              //   return (
+              //     <NotePageMain
+              //       note={note}
+              //       {...routeProps}
                   />
                 )
               }}
@@ -117,11 +172,12 @@ class App extends Component {
             />
             <Route
               path='/add-note'
-              render={routeProps => {
-                return (
-                  <AddNote
-                    {...routeProps}
-                    folders={folders}
+              component={AddNote}
+              // render={routeProps => {
+              //   return (
+              //     <AddNote
+              //       {...routeProps}
+              //       folders={folders}
                   />
                 )
           }}
@@ -131,8 +187,13 @@ class App extends Component {
 
   // then render everything
   render() {
-    
+    const value = {
+      notes: this.state.notes,
+      folders: this.state.folders
+    }
     return (
+      <UserContext.Provider
+        value={value}>
         <div className="app">
           <nav>
             {this.renderSidebar()}
@@ -146,6 +207,7 @@ class App extends Component {
             {this.renderMain()}
           </main>
         </div>
+        </UserContext.Provider>
     );
   }
 }
