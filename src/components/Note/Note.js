@@ -7,6 +7,7 @@ class Note extends React.Component {
   static contextType = UserContext;
 
   render() {
+    // set prop
     const { name, id, modified } = this.props;
     return (
       // <UserContext.Consumer>

@@ -155,13 +155,13 @@ class App extends Component {
             <Route
               path='/note/:noteId'
               component={NotePageMain}
-              // render={routeProps => {
-              //   const { noteId } = routeProps.match.params
-              //   const note = findNote(this.state.notes, noteId)
-              //   return (
-              //     <NotePageMain
-              //       note={note}
-              //       {...routeProps}
+              render={routeProps => {
+                const { noteId } = routeProps.match.params
+                const note = findNote(this.state.notes, noteId)
+                return (
+                  <NotePageMain
+                    note={note}
+                    {...routeProps}
                   />
                 )
               }}
@@ -179,9 +179,9 @@ class App extends Component {
               //       {...routeProps}
               //       folders={folders}
                   />
-                )
+                {/* )
           }}
-        />
+        /> */}
     </>
     )}
 
