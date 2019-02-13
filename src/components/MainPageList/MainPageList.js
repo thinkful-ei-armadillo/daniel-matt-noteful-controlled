@@ -2,21 +2,32 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Note from '../Note/Note';
 import UserContext from '../../Context';
+import {getNotes} from '../../App';
 import './MainPageList.css'
 
 class MainPageList extends React.Component {
+  static defaultProps = {
+    match: {
+      params: {}
+    }
+  }
+
+  static contextType = UserContext;
+
   render () {
+    const { folderId } = this.props.match.params
+    const { notes = [] } = this.context
+    const notesForFolder = getNotes(notes, folderId)
   return (
-    <UserContext.Consumer>
-      {({notes}) => (
+
         <section className="MainPageList">
           <ul>
-            {notes.map( note => {
+            {notesForFolder.map( note => {
               return <li key={note.id}>
                 <Note 
-                id={note.id}
-                name={note.name}
-                modified={note.modified}
+                  id={note.id}
+                  name={note.name}
+                  modified={note.modified}
                 />
               </li>
               }
@@ -33,9 +44,7 @@ class MainPageList extends React.Component {
             </button>
         </section>
         )}
-    </UserContext.Consumer>
-  );
-}
+
 }
 
 

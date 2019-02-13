@@ -4,14 +4,23 @@ import UserContext from '../../Context';
 import './MainPageNav.css';
 
 export default class MainPageNav extends React.Component {
+  static defaultProps = {
+    match: {
+      params: {}
+    },
+    goBack: () => {}
+  }
+
+  static contextType = UserContext;
+
   render () {
     const { folders=[], notes=[] } = this.context;
   return (
-    <UserContext.Consumer>
-      {({folders}) => (
+    // <UserContext.Consumer>
+    //   {({folders}) => (
         <div className="MainPageNav">
           <ul>
-            {folders.map(folder => {
+            {folders.map((folder) => {
               return <li key={folder.id}>
                 <NavLink
                 className="MainPageNav-Link"
@@ -29,8 +38,8 @@ export default class MainPageNav extends React.Component {
             </Link>
           </button>
         </div>
-    )}
-    </UserContext.Consumer>
+    // )}
+    // </UserContext.Consumer>
   )
 }
 }
