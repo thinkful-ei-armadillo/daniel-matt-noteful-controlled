@@ -21,8 +21,6 @@ class NotePageSidebar extends React.Component {
     const note = findNote(notes, noteId) || {}
     const folder = findFolder(folders, note.folderId)
     return (
-      // <UserContext.Consumer>
-      //   {({folders}) => (
             <div className='NotePageNav'>
               <button
                 tag='button'
@@ -37,15 +35,7 @@ class NotePageSidebar extends React.Component {
                 </h3>
               )}
             </div>
-      //   )}
-      // </UserContext.Consumer>
     )
-  }
-}
-
-NotePageSidebar.defaultProps = {
-  history: {
-    goBack: () => {}
   }
 }
 

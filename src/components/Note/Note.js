@@ -10,8 +10,6 @@ class Note extends React.Component {
     // set prop
     const { name, id, modified } = this.props;
     return (
-      // <UserContext.Consumer>
-      // {({notes}) => (
       <div className="note-item">
         <h2>
           <Link to={`/note/${id}`}>
@@ -21,8 +19,6 @@ class Note extends React.Component {
           <p>Modified: {format( modified, 'Do MMM YYYY' )}</p>
         <button>Delete</button>
       </div>
-      // )}
-      // </UserContext.Consumer>
     )
   }
 }

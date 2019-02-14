@@ -6,6 +6,11 @@ export default class AddNote extends Component {
   static defaultProps = {
     folders: []
   }
+
+  // validate add note input data
+
+  // then POST to API here using a fetch block
+
   render () {
     const {folders} = this.props
     return (

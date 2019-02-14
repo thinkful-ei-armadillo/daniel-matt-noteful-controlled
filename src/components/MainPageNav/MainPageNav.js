@@ -16,8 +16,6 @@ export default class MainPageNav extends React.Component {
   render () {
     const { folders=[], notes=[] } = this.context;
   return (
-    // <UserContext.Consumer>
-    //   {({folders}) => (
         <div className="MainPageNav">
           <ul>
             {folders.map((folder) => {
@@ -38,8 +36,6 @@ export default class MainPageNav extends React.Component {
             </Link>
           </button>
         </div>
-    // )}
-    // </UserContext.Consumer>
   )
 }
 }

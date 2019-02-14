@@ -3,6 +3,10 @@ import Form from '../Form';
 import './AddFolder.css';
 
 export default class AddFolder extends Component {
+  // validate add folder input data
+
+  // then POST to API here using a fetch block
+
 render () {
     return (
       <section className="addFolderForm">
