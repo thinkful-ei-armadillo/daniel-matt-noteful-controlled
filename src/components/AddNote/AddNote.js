@@ -7,7 +7,7 @@ export default class AddNote extends Component {
     folders: []
   }
 
-  // validate add note input data
+  // validate add note input data and then store in state
 
   // then POST to API here using a fetch block
 

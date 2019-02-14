@@ -5,8 +5,8 @@ import MainPageNav from './components/MainPageNav/MainPageNav';
 import NotePageSidebar from './components/NotePage/NotePageSidebar';
 import NotePageMain from './components/NotePage/NotePageMain';
 import AddNote from './components/AddNote/AddNote';
-import UserContext from './Context';
 import AddFolder from './components/AddFolder/AddFolder';
+import UserContext from './Context';
 import './App.css';
 
 // task functions for getting specific folders and notes from state
