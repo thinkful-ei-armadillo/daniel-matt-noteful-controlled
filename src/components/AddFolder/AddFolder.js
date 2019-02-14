@@ -35,6 +35,8 @@ export default class AddFolder extends Component {
         }
       })
       .catch(err => alert(err.message))
+
+      this.props.history.push('/');
   }
   
 render () {

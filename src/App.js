@@ -33,9 +33,16 @@ class App extends Component {
   };
 
   addFolderFromState = (name) => {
-    console.log(name);
     this.state.folders.push({name: name});
     this.setState({folders: this.state.folders})
+  }
+
+  addNoteFromState = (name, des,id) =>{
+    const note = {name: name, content: des, folderId: id};
+    this.state.notes.push(note);
+    this.setState({
+      notes: this.state.notes
+    })
   }
 
   componentDidMount() {
@@ -188,7 +195,8 @@ class App extends Component {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.deleteFromState,
-      addFolderName: this.addFolderFromState
+      addFolderName: this.addFolderFromState,
+      addNote: this.addNoteFromState
     };
     return (
       <UserContext.Provider value={value}>
