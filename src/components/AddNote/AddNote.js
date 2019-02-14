@@ -65,10 +65,8 @@ export default class AddNote extends Component {
           // throw new Error(err.message)
         }
         )
-
       this.props.history.push('/');
     }
-
   }
 
 

@@ -92,8 +92,6 @@ class App extends Component {
           loading: false
         });
       });
-
-    // to delete, make request to http://localhost:9090/notes/<note-id> endpoint
   }
 
   //render sidebar routes
@@ -108,29 +106,13 @@ class App extends Component {
             key={path}
             path={path}
             component={MainPageNav}
-            //  render={routeProps => {
-            //   return <MainPageNav
-            //     // folders={folders}
-            //     // notes={notes}
-            //     {...routeProps}
-            //     />
-            //   }}
+            
           />
         ))}
         <Route
           path="/note/:noteId"
           component={NotePageSidebar}
-          // render={routeProps => {
-          //   const { noteId } = routeProps.match.params
-          //   const note = findNote(notes, noteId) || {}
-          //   const folder = findFolder(folders, note.folderId)
-          //   return (
-          //     <NotePageSidebar
-          //       folder={folder}
-          //       {...routeProps}
-          //     />
-          //   )
-          // }}
+          
         />
         <Route path="/add-folder" component={MainPageNav} />
         <Route path="/add-note" component={NotePageSidebar} />
@@ -140,7 +122,7 @@ class App extends Component {
   // then render the main routes
   renderMain() {
     console.log("main rendered!");
-    // const { notes, folders } = this.state
+
     return (
       <>
         {["/", "/folder/:folderId"].map(path => {
@@ -151,15 +133,6 @@ class App extends Component {
                 key={path}
                 path={path}
                 component={MainPageList}
-                // render={routeProps => {
-                //   const { folderId } = routeProps.match.params
-                //   const notesForFolder = getNotes(notes, folderId)
-                //   return (<MainPageList
-                //     notes={notesForFolder}
-                //     {...routeProps}
-                //     />
-                //     )
-                //   }}
               />
             </div>
           );
@@ -177,11 +150,6 @@ class App extends Component {
         <Route
           path="/add-note"
           component={AddNote}
-          // render={routeProps => {
-          //   return (
-          //     <AddNote
-          //       {...routeProps}
-          //       folders={folders}
         />
       </>
     );
