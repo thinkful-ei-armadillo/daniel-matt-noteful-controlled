@@ -16,7 +16,7 @@ import './NotePageMain.css';
     const { noteId } = this.props.match.params
     const note = findNote(notes, noteId) || {content: ''}
 
-    console.log(note);
+    // console.log(note);
     
     return (
       
