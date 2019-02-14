@@ -16,7 +16,7 @@ export default class AddFolder extends Component {
     this.setState({folderName: name})
   }
 
-  handleFolder (e) {
+  handleFolder = (e) => {
     e.preventDefault();
     const newFolderName = this.context.addFolderName
     newFolderName(this.state.folderName)
@@ -48,7 +48,7 @@ render () {
             type="text" 
             placeholder="folder name"
             onChange={e => this.setFolder(e.target.value)}
-            />
+            required/>
           <button type="submit">Submit</button>
         </form>
       </section>

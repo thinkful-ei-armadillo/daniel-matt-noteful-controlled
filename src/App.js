@@ -7,6 +7,7 @@ import NotePageMain from "./components/NotePage/NotePageMain";
 import AddNote from "./components/AddNote/AddNote";
 import UserContext from "./Context";
 import AddFolder from "./components/AddFolder/AddFolder";
+import ErrorPage from './ErrorBoundary';
 import "./App.css";
 
 // task functions for getting specific folders and notes from state
@@ -37,8 +38,8 @@ class App extends Component {
     this.setState({folders: this.state.folders})
   }
 
-  addNoteFromState = (name, des,id) =>{
-    const note = {name: name, content: des, folderId: id};
+  addNoteFromState = (name, des, id, modifiedOn) =>{
+    const note = {name: name, content: des, folderId: id, modified: modifiedOn};
     this.state.notes.push(note);
     this.setState({
       notes: this.state.notes
@@ -182,15 +183,13 @@ class App extends Component {
           //       {...routeProps}
           //       folders={folders}
         />
-        {/* )
-          }}
-        /> */}
       </>
     );
   }
 
   // then render everything
   render() {
+    
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
@@ -201,13 +200,15 @@ class App extends Component {
     return (
       <UserContext.Provider value={value}>
         <div className="app">
-          <nav>{this.renderSidebar()}</nav>
-          <header>
-            <h1>
-              <Link to="/">Noteful</Link>
-            </h1>
-          </header>
-          <main>{this.renderMain()}</main>
+          <ErrorPage>
+              <nav>{this.renderSidebar()}</nav>
+              <header>
+                <h1>
+                  <Link to="/">Noteful</Link>
+                </h1>
+              </header>
+              <main>{this.renderMain()}</main>
+            </ErrorPage>
         </div>
       </UserContext.Provider>
     );

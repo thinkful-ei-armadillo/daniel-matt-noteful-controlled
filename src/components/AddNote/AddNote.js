@@ -6,6 +6,9 @@ import './AddNote.css';
 export default class AddNote extends Component {
   static defaultProps = {
     folders: [],
+  }
+
+  state = {
     name: '',
     description: '',
     selected: null,
@@ -15,25 +18,25 @@ export default class AddNote extends Component {
   static contextType = UserContext;
 
   // validate add note input data and then store in state
-  handleInputName(e) {
+  handleInputName = (e) => {
     this.setState({
       name: e
     });
   }
 
-  handleInputDescription(e) {
+  handleInputDescription = (e) => {
     this.setState({
       description: e
     });
   }
 
-  handleSelect(e) {
+  handleSelect = (e) => {
     console.log(e);
     this.setState({
       selected: e
     })
   }
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
 
     if (this.state.name === '') {
@@ -42,9 +45,11 @@ export default class AddNote extends Component {
         check: !this.state.check
       })
     }
-    if (!this.state.check) {
-      const note = { name: this.state.name, content: this.state.description, folderId: this.state.selected }
-      this.context.addNote(this.state.name, this.state.description, this.state.selected);
+    if (this.state.name) {
+      console.log(`this.state.name evalled true`)
+      const date = Date.now()
+      const note = { name: this.state.name, content: this.state.description, folderId: this.state.selected, modified: date }
+      this.context.addNote(this.state.name, this.state.description, this.state.selected, date);
 
       fetch("http://localhost:9090/notes", {
         method: 'POST',
@@ -55,7 +60,11 @@ export default class AddNote extends Component {
           if (!res.ok)
             return res.json();
         })
-        .catch(err => console.log(err.message))
+        .catch(err => {
+          console.log(err.message)
+          // throw new Error(err.message)
+        }
+        )
 
       this.props.history.push('/');
     }
@@ -73,8 +82,13 @@ export default class AddNote extends Component {
       <section className="addNoteForm">
         <h2>Add A Note</h2>
         <form onSubmit={(e) => this.handleSubmit(e)}>
-          <input type="text" placeholder="name" onChange={(input) => this.handleInputName(input.target.value)} />
-          <input type="textarea" placeholder="description" onChange={(e => this.handleInputDescription(e.target.value))} />
+          <input 
+            type="text" 
+            placeholder="name" 
+            onChange={(input) => this.handleInputName(input.target.value)} /><br/>
+          <textarea 
+              placeholder="description" 
+                onChange={(e => this.handleInputDescription(e.target.value))} /><br/>
           <select id='note-folder-select' onChange={(e) => this.handleSelect(e.target.value)}>
             <option value="null">...</option>
             {folders.map(folder =>
@@ -82,7 +96,7 @@ export default class AddNote extends Component {
                 {folder.name}
               </option>
             )}
-          </select>
+          </select><br/>
           <button type="submit">Submit</button>
         </form>
       </section>
